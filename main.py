@@ -64,7 +64,7 @@ def onefour():
 
 
 def twoone():
-    print("\t\t\t\t\tTask 2.1")
+    print("\t\t\t\t\tTask 2.1, 2.2, 2.3, 2.4")
     student_name = input("Student name - ")
 
     assignment_scores = input("scores for assignments = ").split(',')
@@ -76,29 +76,55 @@ def twoone():
     test_scores = input("tests =  ").split(',')
     test_scores = [int(score.strip()) for score in test_scores]
 
+    final_grade = 0.3*(sum(assignment_scores)/len(assignment_scores))+0.5*(sum(lab_scores)/len(lab_scores)) + 0.2*(sum(test_scores)/len(test_scores))
+
+
     student = {
         'name': student_name,
         'assignment': assignment_scores,
         'test': test_scores,
-        'lab': lab_scores
+        'lab': lab_scores,
+        'final_grade': final_grade
     }
 
     print(student)
 
-    print("\t\t\t\t\tTask 2.2")
 
-    assignment_submitted = len(student.get('assignment', [])) == 4
-    lab_submitted = len(student.get('lab', [])) == 2
-    test_submitted = len(student.get('test', [])) == 2
+    submitted_assignments = len(student.get('assignment', []))
+    submitted_labs = len(student.get('lab', []))
+    submitted_tests = len(student.get('test', []))
 
-    # Calculate the submission rate
-    submission_rate = assignment_submitted + lab_submitted + test_submitted
 
-    # Create the submission_check dictionary
-    submission_check = {student['name']: submission_rate}
+    submission_check = {student['name']: submitted_assignments + submitted_labs + submitted_tests}
 
     print(submission_check)
 
-#neonetwothree()
-#onefour()
+
+def threeone():
+    transactions = [(1001, 2), (1001, 1), (1003, 2), (1005, 2), (1001, 3), (1007, 1), (1007, 2), (1100, 2), (1003, 2),
+                    (1001, 1)]
+
+    stats = {}
+
+    for user_id, transaction_type in transactions:
+        if user_id not in stats:
+            stats[user_id] = {1: 0, 2: 0, 3: 0, 'mft': None, 'lft': None}
+
+        if transaction_type in [1, 2, 3]:
+            stats[user_id][transaction_type] += 1
+
+
+    for user_id, user_data in stats.items():
+        transaction_counts = [(t, user_data[t]) for t in [1, 2, 3]]
+        transaction_counts.sort(key=lambda x: -x[1])
+        most_frequent = transaction_counts[0][0]
+        least_frequent = transaction_counts[-1][0]
+        stats[user_id]['mft'] = most_frequent
+        stats[user_id]['lft'] = least_frequent
+
+    print(stats)
+
+oneonetwothree()
+onefour()
 twoone()
+threeone()
